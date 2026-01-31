@@ -1,0 +1,80 @@
+/* Conteneur global */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Barre de recherche */
+input[type="text"] {
+  max-width: 500px;
+  margin: 0 auto 25px auto;
+  display: block;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* Carte suggestion */
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* Titre */
+.card h5 {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* Description */
+.card p {
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Badge status */
+.badge {
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Boutons */
+button {
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* Bouton Like */
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+/* Bouton Favoris */
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .card {
+    margin: 10px;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
