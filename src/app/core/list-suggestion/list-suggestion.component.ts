@@ -65,5 +65,13 @@ likeSuggestion(s: Suggestion) {
       s.category.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
+  ngOnInit(): void {
+
+  const newSuggestion = history.state.newSuggestion;
+
+  if (newSuggestion) {
+    this.suggestions.push(newSuggestion);
+  }
+}
 
 }

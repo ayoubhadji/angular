@@ -6,7 +6,10 @@
   placeholder="Rechercher par titre ou catégorie"
   [(ngModel)]="searchText"
 />
-
+<div>
+  <button routerLink="/add-suggestion">
+  Ajouter suggestion
+</button></div>
 <div *ngFor="let s of filteredSuggestions()" class="card mb-3">
   <div class="card-body">
     <h5>{{ s.title }}</h5>
@@ -35,3 +38,4 @@
     </div>
   </div>
 </div>
+

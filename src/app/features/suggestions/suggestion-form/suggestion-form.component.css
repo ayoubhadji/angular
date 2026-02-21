@@ -1,0 +1,16 @@
+form {
+  width: 400px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 8px;
+}
+
+button {
+  width: 120px;
+}
