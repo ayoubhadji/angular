@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { provideHttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +10,8 @@ import { ListSuggestionComponent } from './core/list-suggestion/list-suggestion.
 import { FormsModule } from '@angular/forms';
 import { SuggestionFormComponent } from './features/suggestions/suggestion-form/suggestion-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './core/home/home.component';
+import { NotfoundComponent } from './core/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -16,15 +19,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     ListSuggestionComponent,
-    SuggestionFormComponent
+    SuggestionFormComponent,
+    HomeComponent,
+    NotfoundComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,  
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

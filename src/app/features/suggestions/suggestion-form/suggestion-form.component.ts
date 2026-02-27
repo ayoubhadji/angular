@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Suggestion } from '../../../models/suggestion';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SuggestionService } from '../../../core/Services/suggestion.service';
+
 @Component({
   selector: 'app-suggestion',
   templateUrl: './suggestion-form.component.html',
@@ -9,56 +10,85 @@ import { Suggestion } from '../../../models/suggestion';
 })
 export class SuggestionFormComponent {
 
+  suggestionForm!: FormGroup;
 
-suggestionForm!: FormGroup;
+  id!: number;
+  isUpdateMode: boolean = false;
 
-categories: string[] = [
-'Infrastructure et bâtiments',
-'Technologie et services numériques',
-'Restauration et cafétéria',
-'Hygiène et environnement',
-'Transport et mobilité',
-'Activités et événements',
-'Sécurité',
-'Communication interne',
-'Accessibilité',
-'Autre'
-];
+  categories: string[] = [
+    'Infrastructure et bâtiments',
+    'Technologie et services numériques',
+    'Restauration et cafétéria',
+    'Hygiène et environnement',
+    'Transport et mobilité',
+    'Activités et événements',
+    'Sécurité',
+    'Communication interne',
+    'Accessibilité',
+    'Autre'
+  ];
 
-constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private service: SuggestionService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
+  ngOnInit(): void {
 
-ngOnInit(): void {
-  this.suggestionForm = this.fb.group({
-    title: ['', [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.pattern('^[A-Z][a-zA-Z]*$')
-    ]],
-    description: ['', [
-      Validators.required,
-      Validators.minLength(30)
-    ]],
-    category: ['', Validators.required],
-    date: [{ value: new Date(), disabled: true }],
-    status: [{ value: 'en attente', disabled: true }]
-  });
-}
-
-onSubmit() {
-  if (this.suggestionForm.valid) {
-
-    const newSuggestion: Suggestion = {
-      id: Date.now(),
-      ...this.suggestionForm.getRawValue(),
+    this.suggestionForm = this.fb.group({
+      title: ['', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.pattern('^[A-Z][a-zA-Z ]*$')
+      ]],
+      description: ['', [
+        Validators.required,
+        Validators.minLength(30)
+      ]],
+      category: ['', Validators.required],
+      date: [{ value: new Date(), disabled: true }],
+      status: [{ value: 'en attente', disabled: true }],
       nbLikes: 0
-    };
-
-    // ajouter dans le service ici
-
-    this.router.navigate(['/suggestions'], {
-      state: { newSuggestion: newSuggestion }
     });
+
+    const idParam = this.route.snapshot.paramMap.get('id');
+
+    if (idParam) {
+
+      this.isUpdateMode = true;
+      this.id = Number(idParam);
+
+      this.service.getSuggestionById(this.id)
+        .subscribe(data => {
+          this.suggestionForm.patchValue(data);
+        });
+    }
   }
-}
+
+  onSubmit() {
+
+    if (this.suggestionForm.valid) {
+
+      if (this.isUpdateMode) {
+
+        this.service.updateSuggestion(
+          this.id,
+          this.suggestionForm.getRawValue()
+        ).subscribe(() => {
+          this.router.navigate(['/listSuggestion']);
+        });
+
+      } else {
+
+        this.service.addSuggestion(
+          this.suggestionForm.getRawValue()
+        ).subscribe(() => {
+          this.router.navigate(['/listSuggestion']);
+        });
+
+      }
+    }
+  }
 }
